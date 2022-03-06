@@ -1,3 +1,5 @@
+import { identity } from './identity'
+
 export class Option<T> {
   private _isSome: boolean
   private _value: T
@@ -178,10 +180,10 @@ export class Option<T> {
    * Returns the value of `Some` or a default value if `None`.
    */
   unwrapOr(defaultValue: T): T {
-    if (this.isSome()) {
-      return this._value
-    }
-    return defaultValue
+    return this.match({
+      Some: identity,
+      None: () => defaultValue,
+    })
   }
 
   /**
@@ -207,3 +209,6 @@ export class Option<T> {
     return Option.None
   }
 }
+
+export const Some = Option.Some
+export const None = Option.None
