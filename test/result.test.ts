@@ -1,3 +1,4 @@
+import { None } from '~/option'
 import { Ok, Err } from '~/result'
 
 describe('Ok', () => {
@@ -336,5 +337,25 @@ describe('unwrapErrOrElse', () => {
 
   test('Returns result of function when result is Ok', () => {
     expect(Ok<string, number>('test').unwrapErrOrElse(() => 10)).toBe(10)
+  })
+})
+
+describe('ok', () => {
+  test('Converts Ok to Some', () => {
+    expect(Ok(10).ok().unwrap()).toBe(10)
+  })
+
+  test('Converts Err to None', () => {
+    expect(Err(10).ok()).toBe(None)
+  })
+})
+
+describe('err', () => {
+  test('Converts Ok to None', () => {
+    expect(Ok(10).err()).toBe(None)
+  })
+
+  test('Converts Err to Some', () => {
+    expect(Err(10).err().unwrap()).toBe(10)
   })
 })

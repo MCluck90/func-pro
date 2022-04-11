@@ -1,4 +1,5 @@
 import { identity } from './identity'
+import { None, Option, Some } from './option'
 
 /**
  * Represents the result of an operation.
@@ -188,6 +189,26 @@ export class Result<T, E> {
       return this
     }
     return fn()
+  }
+
+  /**
+   * Converts from `Result<T, E>` to `Option<T>`.
+   */
+  ok(): Option<T> {
+    return this.match({
+      Ok: Some,
+      Err: () => None,
+    })
+  }
+
+  /**
+   * Converts from `Result<T, E>` to `Option<E>`.
+   */
+  err(): Option<E> {
+    return this.match({
+      Err: Some,
+      Ok: () => None,
+    })
   }
 
   /**
