@@ -5,4 +5,11 @@ module.exports = {
   moduleNameMapper: {
     '~(.*)': '<rootDir>/src$1',
   },
+  collectCoverage: true,
+  collectCoverageFrom: ['./src/**'],
+  coverageThreshold: {
+    global: {
+      lines: 100,
+    },
+  },
 }
