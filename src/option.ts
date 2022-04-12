@@ -1,4 +1,5 @@
 import { identity } from './identity'
+import { Err, Ok, Result } from './result'
 
 export class Option<T> {
   private _isSome: boolean
@@ -149,6 +150,27 @@ export class Option<T> {
     return this.match({
       Some: () => this,
       None: fn,
+    })
+  }
+
+  /**
+   * Converts from `Option<T>` to `Result<T, E>`.
+   */
+  ok<E>(error: E): Result<T, E> {
+    return this.match({
+      Some: Ok,
+      None: () => Err(error),
+    })
+  }
+
+  /**
+   * Converts from `Option<T>` to `Result<T, E>`.
+   * Evalutes `E` lazily.
+   */
+  okOr<E>(fn: () => E): Result<T, E> {
+    return this.match({
+      Some: Ok,
+      None: () => Err(fn()),
     })
   }
 

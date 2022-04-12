@@ -1,4 +1,5 @@
 import { Option, Some, None } from '~/option'
+import { Err, Ok } from '~/result'
 
 describe('and', () => {
   test('Returns None if value is None', () => {
@@ -199,6 +200,26 @@ describe('orElse', () => {
     const original = None as Option<number>
     const other = Some(20)
     expect(original.orElse(() => other)).toBe(other)
+  })
+})
+
+describe('ok', () => {
+  test('Converts Some to Ok', () => {
+    expect(Some(10).ok('error')).toEqual(Ok(10))
+  })
+
+  test('Converts None to Err with given value', () => {
+    expect(None.ok('error')).toEqual(Err('error'))
+  })
+})
+
+describe('okOr', () => {
+  test('Converts Some to Ok', () => {
+    expect(Some(10).okOr(() => 'error')).toEqual(Ok(10))
+  })
+
+  test('Converts None to Err with given value', () => {
+    expect(None.okOr(() => 'error')).toEqual(Err('error'))
   })
 })
 
